@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h5>Save your account information</h5>
+<div class="col s12 m10 l3" id="form_shape_signup">
+  <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="row">
+      <div class="input-field col s11">
+        <i class="material-icons prefix">account_circle</i>
+        {{ form.website_name(placeholder = "Website Name", class ="materialize-textarea icon_prefix2") }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s11">
+        <i class="material-icons prefix">email</i>
+        {{ form.website_url(placeholder = "Website URL", class ="materialize-textarea icon_prefix2") }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s11">
+        <i class="material-icons prefix">lock</i>
+        {{ form.account_username(placeholder = "Account Username", class ="materialize-textarea icon_prefix2") }}
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col s1"></div>
+      <div class="input-field col s10">
+        {{ form.account_password(Placeholder = "Account Password", class ="materialize-textarea") }}
+      </div>
+    </div> ## how to make the scroll-down list for [category]
+    <div class="row">
+      <div class="col s1"></div>
+      <div class="input-field col s10">
+        {{ form.category(Placeholder = "category", class ="materialize-textarea") }}
+      </div>
+    </div>
+
+    <button class="btn waves-effect waves-light" type="submit">SAVE
+      <i class="material-icons right">send</i>
+    </button>
+     <button class="btn waves-effect waves-light" type="cancel">CANCEL
+      <i class="material-icons right">send</i>
+    </button>
+  </form>
+
+</div>
+
+{% block additionallibraries_bottom %} 
+<script type="text/javascript" src="{{ url_for('static', filename='js/share.js') }}"></script>
+{% endblock %}
