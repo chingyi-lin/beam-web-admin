@@ -91,3 +91,7 @@ def shareSubmit(note_id):
     newSharedNote.set_magiclink()
     db.session.commit()
     return render_template('confirm.html', title = "Sharing Complete", username = current_user.username, magiclink=newSharedNote.magiclink)
+
+@app.route('/entry', methods=['GET', 'POST'])
+def entry():
+    return render_template('entry.html', title = "Entry")
