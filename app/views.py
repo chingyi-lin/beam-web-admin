@@ -91,3 +91,7 @@ def shareSubmit():
 @app.route('/share-confirmed')
 def shareConfirm():
     return render_template('confirm.html', title = "Sharing Complete", username = current_user.username)
+
+@app.route('/entry', methods=['GET', 'POST'])
+def entry():
+    return render_template('entry.html', title = "Entry")
