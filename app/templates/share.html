@@ -9,7 +9,7 @@
 </div>
 
 <div class="row" id="share-form" hidden>
-    <form class ="col s12" action="/share-submit" method="post">
+    <form class ="col s12" action="/share-submit/{{ note_id }}" method="post">
         <div class="row">
         <div class="input-field col s12">
             <input placeholder="Enter duration (days)" name="duration" id="duration" type="number" min="0" step="1" class="validate">
