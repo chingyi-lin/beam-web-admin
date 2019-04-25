@@ -16,21 +16,13 @@
                     {{ form.noteContent(placeholder = "Content", class ="materialize-textarea icon_prefix2", id = "noteContent") }}
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="input-field col s12">
-                    <select>
-                    <option value="" disabled selected>Choose a category</option>
-                    <option value="1">Education</option>
-                    <option value="2">Entertainment</option>
-                    <option value="3">Finance</option>
-                    <option value="4">News/Reference</option>
-                    <option value="5">Shopping</option>
-                    <option value="6">Travel</option>
-                    <option value="7">Other</option>
-                    </select>
-                    <label>Category</label>
+            <div class="row">
+                <div class="input-field col s4">
+                    <!-- Not having the disabled selected option here because of the limitation of WTForm. Current workaround: setting the default option as "Other" -->
+                    {{ form.noteCategory(id = "noteCategory") }}
+                    {{ form.noteCategory.label }}
                 </div>
-            </div> -->
+            </div>
         </div>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -48,4 +40,13 @@
     </form>
 </div>
 
+{% endblock %}
+{% block additionallibraries_bottom %} 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var options = document.querySelectorAll('option');
+    var instances = M.FormSelect.init(elems, options);
+  });
+</script>
 {% endblock %}

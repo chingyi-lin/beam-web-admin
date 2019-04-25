@@ -19,4 +19,6 @@ class SignUpForm(Form):
 class NoteForm(Form):           
     noteTitle = StringField('Title', validators=[DataRequired()])
     noteContent = TextAreaField('Content', validators=[DataRequired()])
+    noteCategory = SelectField(label='Category', choices = [('Other','Other'), ('Education','Education'), ('Entertainment','Entertainment'),('Finance','Finance'), \
+        ('News/Reference', 'News/Reference'), ('Shopping', 'Shopping'), ('Travel','Travel')], default='Other', validators = [DataRequired()])
 

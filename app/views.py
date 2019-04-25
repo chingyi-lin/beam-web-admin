@@ -66,7 +66,6 @@ def logout():
 def unauthorized_handler():
     return redirect(url_for('login'))
 
-# TODO: Category drop down. Now it's hard coded "default_category"
 @app.route('/note', methods=['GET', 'POST'])
 @login_required
 def addNote():
@@ -74,7 +73,8 @@ def addNote():
     if form.validate_on_submit():
         noteTitle = form.noteTitle.data
         noteContent = form.noteContent.data
-        newNote = Note(noteTitle, noteContent, "default_category", current_user.id)
+        noteCategory = form.noteCategory.data
+        newNote = Note(noteTitle, noteContent, noteCategory, current_user.id)
         addToDatabase(newNote)
         return redirect(url_for('share', note_id=newNote.id, request_from="adding"))
     return render_template('notes.html', title = "Add Secure Note", form = form, username = current_user.username)
