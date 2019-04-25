@@ -3,6 +3,10 @@
 <h5>Sharing complete!</h5>
 <p>This is your magic link</p>
 <a href="{{ magiclink }}">{{ magiclink }}</p>
+{% if request_from == "entry-note" %}
+<a href="/note/{{ note_id }}">Back to Note page</a>
+{% else %}
 <a href="/">Back to home page</a>
+{% endif %}
 
 {% endblock %}

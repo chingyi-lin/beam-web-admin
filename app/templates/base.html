@@ -20,7 +20,7 @@
     <nav>
       <div class='nav'>
         <div class="nav-wrapper">
-          <a href="{{ url_for('index')}}"><img src="../static/img/logo.png" class="brand-logo left" id="nav-img"
+          <a href="{{ url_for('index')}}"><img src="{{ url_for('static', filename='img/logo.png') }}" class="brand-logo left" id="nav-img"
               align="left"></a>
           <label for="toggle">&#9776;</label>
           <input type="checkbox" id="toggle" />

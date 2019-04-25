@@ -11,7 +11,8 @@ from .shared_note import SharedNote
 @app.route('/')
 def index():
     if current_user.is_authenticated:
-        return render_template('index.html', username = current_user.username)
+        notes = getAllNoteByUserID(current_user.id)
+        return render_template('index.html', username = current_user.username, notes=notes)
     else:
         return render_template('index.html', username = "Guest")
 
@@ -75,22 +76,29 @@ def addNote():
         noteContent = form.noteContent.data
         newNote = Note(noteTitle, noteContent, "default_category", current_user.id)
         addToDatabase(newNote)
-        return redirect(url_for('share', note_id=newNote.id))
+        return redirect(url_for('share', note_id=newNote.id, request_from="adding"))
     return render_template('notes.html', title = "Add Secure Note", form = form, username = current_user.username)
 
-@app.route('/share/<int:note_id>')
+@app.route('/note/<int:note_id>')
 @login_required
-def share(note_id):
-    return render_template('share.html', title = "Share", username = current_user.username, note_id = note_id)
+def viewNote(note_id):
+    note = getNoteByNoteID(note_id)
+    shared_notes = getAllSharedNoteByNoteID(note_id)
+    return render_template('entry-note.html', note=note, shared_notes=shared_notes)
 
-@app.route('/share-submit/<note_id>', methods=['POST'])
-def shareSubmit(note_id):
+@app.route('/share/<int:note_id>/<request_from>')
+@login_required
+def share(note_id, request_from):
+    return render_template('share.html', title="Share", username=current_user.username, note_id=note_id, request_from=request_from)
+
+@app.route('/share-submit/<int:note_id>/<string:request_from>', methods=['POST'])
+def shareSubmit(note_id, request_from):
     duration = request.form['duration']
     newSharedNote = SharedNote(duration, note_id)
     addToDatabase(newSharedNote)
     newSharedNote.set_magiclink()
     db.session.commit()
-    return render_template('confirm.html', title = "Sharing Complete", username = current_user.username, magiclink=newSharedNote.magiclink)
+    return render_template('confirm.html', title = "Sharing Complete", username = current_user.username, magiclink=newSharedNote.magiclink, note_id=note_id, request_from=request_from)
 
 @app.route('/entry', methods=['GET', 'POST'])
 def entry():

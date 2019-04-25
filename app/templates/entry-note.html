@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12 m12 l5 left-align">
+    <div class="row valign-wrapper">
+      <div class="col s2">
+        <img
+          src="https://cdn.vox-cdn.com/thumbor/AwKSiDyDnwy_qoVdLPyoRPUPo00=/39x0:3111x2048/1400x1400/filters:focal(39x0:3111x2048):format(png)/cdn.vox-cdn.com/uploads/chorus_image/image/49901753/netflixlogo.0.0.png"
+          alt="" class="responsive-img">
+      </div>
+      <div class="col s10">
+        <h5>
+          {{ note.title }}
+        </h5>
+      </div>
+    </div>
+    <div class="section">
+      <h6>Content</h6>
+      <p>{{ note.content }}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h6>Category</h6>
+      <p>{{ note.category }}</p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 m12 l12 left-align">
+    <h5>Shared With</h5>
+    <button class="btn waves-effect waves-light" onclick="location.href='/share/{{ note.id }}/entry-note'">Generate a
+      magiclink to share</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 m12 l12 left-align">
+    {% if shared_notes %}
+    <table>
+      <thead>
+        <tr>
+          <th>Magic Link</th>
+          <th>Start Date</th>
+          <th>Duration</th>
+          <th>Expired?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for shared_note in shared_notes %}
+        <tr>
+          <td><a href="{{ shared_note.magiclink }}">{{ shared_note.magiclink }}</a></td>
+          <td>{{ shared_note.start_date }}</td>
+          <td>{{ shared_note.duration }}</td>
+          <td>{{ shared_note.is_expired }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
