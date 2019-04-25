@@ -1,7 +1,9 @@
-from app import app, login_manager, user, db
+from app import app, login_manager, user, db, note, shared_note
 from flask_login import UserMixin, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .user import User
+from .note import Note
+from .shared_note import SharedNote
 
 
 # --- Database API ---
@@ -13,6 +15,15 @@ def addToDatabase(newObject):
 
 def getUserByUsername(query):
     return User.query.filter_by(username=query).first()
+
+def getAllNoteByUserID(query):
+    return Note.query.filter_by(user_id=query).all()
+
+def getNoteByNoteID(query):
+    return Note.query.filter_by(id=query).first()
+
+def getAllSharedNoteByNoteID(query):
+    return SharedNote.query.filter_by(note_id=query).all()
 
 # --- Login/Sign Up Helper Methods ---
 @login_manager.user_loader
