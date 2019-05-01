@@ -7,7 +7,7 @@ class Note(db.Model):
     title = db.Column(db.String(20), unique=False, nullable=False)
     content = db.Column(db.String(200), unique=False, nullable=False)
     category = db.Column(db.String(20), unique=False, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey ('user.id'), nullable=False)
 
     def __init__(self, title, content, category, user_id, id=None):
         self.id = id
