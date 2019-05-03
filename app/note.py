@@ -8,7 +8,7 @@ class Note(db.Model):
     content = db.Column(db.String(200), unique=False, nullable=False)
     category = db.Column(db.String(20), unique=False, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    shared_note = db.relationship("SharedNote", backref="user")
+    shared_note = db.relationship("SharedNote", backref="note")
 
     def __init__(self, title, content, category, user_id, id=None):
         self.id = id
