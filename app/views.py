@@ -86,26 +86,10 @@ def addAccount():
         accountPassword = form.accountPassword.data
         accountCategory = form.accountCategory.data
         newAccount = Account(account_username=accountUsername, website_name=websiteName, website_url=websiteUrl, category=accountCategory, user_id=current_user.id)
-        addToDatabase(newAccount)
         newAccount.set_password(accountPassword)
+        addToDatabase(newAccount)
         return redirect(url_for('share', entity_id=newAccount.id, request_from="add-account"))
     return render_template('add-account.html', title = "Add Account", form = form, username = current_user.username)
-
-
-# @app.route('/add-account', methods=['GET', 'POST'])
-# @login_required
-# def addLogin():
-#     form = AccountForm()
-#     if form.validate_on_submit():
-#         websiteName = form.websiteName.data
-#         websiteUrl = form.websiteUrl.data
-#         accountUsername = form.accountUsername.data
-#         accountPassword = form.accountPassword.data
-#         accountCategory = form.accountCategory.data
-#         newAccount = Account(noteTitle, noteContent, noteCategory, current_user.id)
-#         addToDatabase(newNote)
-#         return redirect(url_for('share', note_id=newNote.id, request_from="adding"))
-#     return render_template('notes.html', title = "Add Secure Note", form = form, username = current_user.username)
 
 @app.route('/add-note', methods=['GET', 'POST'])
 @login_required
