@@ -22,3 +22,11 @@ class NoteForm(Form):
     noteCategory = SelectField(label='Category', choices = [('Other','Other'), ('Education','Education'), ('Entertainment','Entertainment'),('Finance','Finance'), \
         ('News/Reference', 'News/Reference'), ('Shopping', 'Shopping'), ('Travel','Travel')], default='Other', validators = [DataRequired()])
 
+class AccountForm(Form):           
+    websiteName = StringField('Title', validators=[DataRequired()])
+    websiteUrl = TextAreaField('Content', validators=[DataRequired()])
+    accountUsername = StringField('Username', validators=[DataRequired()])
+    accountPassword = PasswordField('Password', validators=[DataRequired()])
+    accountCategory = SelectField(label='Category', choices = [('Other','Other'), ('Education','Education'), ('Entertainment','Entertainment'),('Finance','Finance'), \
+        ('News/Reference', 'News/Reference'), ('Shopping', 'Shopping'), ('Travel','Travel')], default='Other', validators = [DataRequired()])
+

@@ -1,12 +1,15 @@
 from flask import render_template, redirect, request, url_for, flash, json
-from app import app, models, login_manager, db, user, note, shared_note
+from app import app, models, login_manager, db, user, note, shared_note, account, shared_url, activity
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import *
 from .user import User
 from .note import Note
-from .forms import LoginForm, SignUpForm, NoteForm
+from .account import Account
+from .forms import LoginForm, SignUpForm, NoteForm, AccountForm
 from .shared_note import SharedNote
+from .shared_url import SharedURL
+from .activity import Activity
 
 @app.route('/')
 def index():
@@ -66,7 +69,45 @@ def logout():
 def unauthorized_handler():
     return redirect(url_for('login'))
 
-@app.route('/note', methods=['GET', 'POST'])
+@app.route('/add-account', methods=['GET'])
+@login_required
+def addAccountPage():
+    form = AccountForm()
+    return render_template('add-account.html', title = "Add Account", form = form, username = current_user.username)
+
+@app.route('/add-account', methods=['POST'])
+@login_required
+def addAccount():
+    form = AccountForm()
+    if form.validate_on_submit():
+        websiteName = form.websiteName.data
+        websiteUrl = form.websiteUrl.data
+        accountUsername = form.accountUsername.data
+        accountPassword = form.accountPassword.data
+        accountCategory = form.accountCategory.data
+        newAccount = Account(account_username=accountUsername, website_name=websiteName, website_url=websiteUrl, category=accountCategory, user_id=current_user.id)
+        addToDatabase(newAccount)
+        newAccount.set_password(accountPassword)
+        return redirect(url_for('share', entity_id=newAccount.id, request_from="add-account"))
+    return render_template('add-account.html', title = "Add Account", form = form, username = current_user.username)
+
+
+# @app.route('/add-account', methods=['GET', 'POST'])
+# @login_required
+# def addLogin():
+#     form = AccountForm()
+#     if form.validate_on_submit():
+#         websiteName = form.websiteName.data
+#         websiteUrl = form.websiteUrl.data
+#         accountUsername = form.accountUsername.data
+#         accountPassword = form.accountPassword.data
+#         accountCategory = form.accountCategory.data
+#         newAccount = Account(noteTitle, noteContent, noteCategory, current_user.id)
+#         addToDatabase(newNote)
+#         return redirect(url_for('share', note_id=newNote.id, request_from="adding"))
+#     return render_template('notes.html', title = "Add Secure Note", form = form, username = current_user.username)
+
+@app.route('/add-note', methods=['GET', 'POST'])
 @login_required
 def addNote():
     form = NoteForm()
@@ -76,8 +117,8 @@ def addNote():
         noteCategory = form.noteCategory.data
         newNote = Note(noteTitle, noteContent, noteCategory, current_user.id)
         addToDatabase(newNote)
-        return redirect(url_for('share', note_id=newNote.id, request_from="adding"))
-    return render_template('notes.html', title = "Add Secure Note", form = form, username = current_user.username)
+        return redirect(url_for('share', entity_id=newNote.id, request_from="add-note"))
+    return render_template('add-note.html', title = "Add Secure Note", form=form, username=current_user.username)
 
 @app.route('/note/<int:note_id>')
 @login_required
@@ -86,19 +127,22 @@ def viewNote(note_id):
     shared_notes = getAllSharedNoteByNoteID(note_id)
     return render_template('entry-note.html', note=note, shared_notes=shared_notes)
 
-@app.route('/share/<int:note_id>/<request_from>')
+@app.route('/share/<int:entity_id>/<request_from>')
 @login_required
-def share(note_id, request_from):
-    return render_template('share.html', title="Share", username=current_user.username, note_id=note_id, request_from=request_from)
+def share(entity_id, request_from):
+    return render_template('share.html', title="Share", username=current_user.username, entity_id=entity_id, request_from=request_from)
 
-@app.route('/share-submit/<int:note_id>/<string:request_from>', methods=['POST'])
-def shareSubmit(note_id, request_from):
+@app.route('/share-submit/<int:entity_id>/<string:request_from>', methods=['POST'])
+def shareSubmit(entity_id, request_from):
     duration = request.form['duration']
-    newSharedNote = SharedNote(duration, note_id)
-    addToDatabase(newSharedNote)
-    newSharedNote.set_magiclink()
+    if (request_from == "add-note"):
+        newObj = SharedNote(duration, entity_id)
+    elif (request_from == "add-account"):
+        newObj = SharedURL(duration, entity_id)
+    addToDatabase(newObj)
+    newObj.set_magiclink()
     db.session.commit()
-    return render_template('confirm.html', title = "Sharing Complete", username = current_user.username, magiclink=newSharedNote.magiclink, note_id=note_id, request_from=request_from)
+    return render_template('confirm.html', title = "Sharing Complete", username = current_user.username, magiclink=newObj.magiclink, entity_id=entity_id, request_from=request_from)
 
 @app.route('/entry', methods=['GET', 'POST'])
 def entry():

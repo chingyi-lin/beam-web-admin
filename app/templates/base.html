@@ -27,6 +27,7 @@
           <input type="checkbox" id="toggle" />
           <div class="menu">
             <span align="left" id="login-name" class="hide-on-small-only">User: {{username}}</span>
+            <a href="{{ url_for('addAccountPage')}}">Add Account</a>
             <a href="{{ url_for('addNote')}}">Add Note</a>
             {% if current_user.is_authenticated %}
             <a href="{{ url_for('logout')}}">Logout</a>

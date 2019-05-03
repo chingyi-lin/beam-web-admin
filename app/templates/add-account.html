@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h5>Ａdd Your Account Information</h5>
+<div class="col s12">
+  <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="row">
+      <div class="input-field col s4">
+        {{ form.websiteName(placeholder = "Website Name", class ="materialize-textarea icon_prefix2") }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s10">
+        {{ form.websiteUrl(placeholder = "Website URL", class ="materialize-textarea icon_prefix2") }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s4">
+        {{ form.accountUsername(placeholder = "Account Username", class ="materialize-textarea icon_prefix2") }}
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <!-- <div class="col s1"></div> -->
+      <div class="input-field col s4">
+        {{ form.accountPassword(Placeholder = "Account Password", class ="materialize-textarea") }}
+      </div>
+    </div>
+    <div class="row">
+      <!-- <div class="col s1"></div> -->
+      <div class="input-field col s4">
+        <!-- Not having the disabled selected option here because of the limitation of WTForm. Current workaround: setting the default option as "Other" -->
+        {{ form.accountCategory(id = "accountCategory") }}
+        {{ form.accountCategory.label }}
+      </div>
+    </div>
+
+    <button class="btn waves-effect waves-light" type="submit" id="addNote">Add Account
+      </button>
+      <button class="btn waves-effect waves-teal btn-flat" onclick="location.href='/'">Cancel
+      </button>
+  </form>
+
+</div>
+{% endblock %}
+
+{% block additionallibraries_bottom %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var options = document.querySelectorAll('option');
+    var instances = M.FormSelect.init(elems, options);
+  });
+</script>
+{% endblock %}
