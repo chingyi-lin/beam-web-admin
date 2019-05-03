@@ -28,7 +28,7 @@ def getNoteByNoteID(query):
 def getAllSharedNoteByNoteID(query):
     return SharedNote.query.filter_by(note_id=query).all()
 
-def getAllNoteByUserID(query):
+def getAllAccountByUserID(query):
     return Account.query.filter_by(user_id=query).all()
 
 def getAccountByNoteID(query):
