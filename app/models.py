@@ -31,7 +31,7 @@ def getAllSharedNoteByNoteID(query):
 def getAllAccountByUserID(query):
     return Account.query.filter_by(user_id=query).all()
 
-def getAccountByNoteID(query):
+def getAccountByAccountID(query):
     return Account.query.filter_by(id=query).first()
 
 def getAllSharedURLByAccountID(query):

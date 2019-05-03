@@ -5,22 +5,22 @@
     <div class="col s12 m12 l5 left-align">
             <div class="row valign-wrapper">
                     <div class="col s2">
-                      <img src="https://cdn.vox-cdn.com/thumbor/AwKSiDyDnwy_qoVdLPyoRPUPo00=/39x0:3111x2048/1400x1400/filters:focal(39x0:3111x2048):format(png)/cdn.vox-cdn.com/uploads/chorus_image/image/49901753/netflixlogo.0.0.png" alt="" class="responsive-img">
+                      <img src="https://logo.clearbit.com/{{ account.website_url }}" alt="" class="responsive-img">
                     </div>
                     <div class="col s10">
                       <h5>
-                        Netflix
+                          {{ account.website_name }}
                       </h5>
                     </div>
                   </div>
         <div class="section">
           <h6>Website</h6>
-          <p>https://www.netflix.com</p>
+          <p>{{ account.website_url }}</p>
         </div>
         <div class="divider"></div>
         <div class="section">
           <h6>Username</h6>
-          <p>joyce@gmail.com</p>
+          <p>{{ account.account_username }}</p>
         </div>
         <div class="divider"></div>
         <div class="section">
@@ -31,28 +31,29 @@
 
     <div class="row">
         <div class="col s12 m12 l12 left-align">
+        {% if shared_urls %}
         <h5>Shared With</h5>
         <table>
             <thead>
             <tr>
-                <th>Email</th>
                 <th>Magic Link</th>
                 <th>Start Date</th>
                 <th>Duration</th>
                 <th>Expired?</th>
             </tr>
             </thead>
-
+            {% for shared_url in shared_urls %}
             <tbody>
             <tr>
-                <td>jenny@gmail.com</td>
-                <td>https://askdjidlkf.com</td>
-                <td>05/20/2019</td>
-                <td>No Expiration</td>
-                <td>No</td>
+              <td><a href="{{ shared_url.magiclink }}">{{ shared_url.magiclink }}</a></td>
+              <td>{{ shared_url.start_date }}</td>
+              <td>{{ shared_url.duration }}</td>
+              <td>{{ shared_url.is_expired }}</td>
             </tr>
+            {% endfor %}
             </tbody>
         </table>
+        {% endif %}
         </div>
     </div>
 </div>

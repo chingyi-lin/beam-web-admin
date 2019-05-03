@@ -15,7 +15,8 @@ from .activity import Activity
 def index():
     if current_user.is_authenticated:
         notes = getAllNoteByUserID(current_user.id)
-        return render_template('index.html', username = current_user.username, notes=notes)
+        accounts = getAllAccountByUserID(current_user.id)
+        return render_template('index.html', username = current_user.username, notes=notes, accounts=accounts)
     else:
         return render_template('index.html', username = "Guest")
 
@@ -104,12 +105,19 @@ def addNote():
         return redirect(url_for('share', entity_id=newNote.id, request_from="add-note"))
     return render_template('add-note.html', title = "Add Secure Note", form=form, username=current_user.username)
 
+@app.route('/account/<int:account_id>')
+@login_required
+def viewAccount(account_id):
+    account = getAccountByAccountID(account_id)
+    shared_urls = getAllSharedURLByAccountID(account_id)
+    return render_template('entry-account.html', account=account, shared_urls=shared_urls, username=current_user.username)
+
 @app.route('/note/<int:note_id>')
 @login_required
 def viewNote(note_id):
     note = getNoteByNoteID(note_id)
     shared_notes = getAllSharedNoteByNoteID(note_id)
-    return render_template('entry-note.html', note=note, shared_notes=shared_notes)
+    return render_template('entry-note.html', note=note, shared_notes=shared_notes, username=current_user.username)
 
 @app.route('/share/<int:entity_id>/<request_from>')
 @login_required
