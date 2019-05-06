@@ -2,59 +2,66 @@
 
 {% block content %}
 <div class="row">
-    <div class="col s12 m12 l5 left-align">
-            <div class="row valign-wrapper">
-                    <div class="col s2">
-                      <img src="https://logo.clearbit.com/{{ account.website_url }}" alt="" class="responsive-img">
-                    </div>
-                    <div class="col s10">
-                      <h5>
-                          {{ account.website_name }}
-                      </h5>
-                    </div>
-                  </div>
-        <div class="section">
-          <h6>Website</h6>
-          <p>{{ account.website_url }}</p>
-        </div>
-        <div class="divider"></div>
-        <div class="section">
-          <h6>Username</h6>
-          <p>{{ account.account_username }}</p>
-        </div>
-        <div class="divider"></div>
-        <div class="section">
-          <h6>Password</h6>
-          <p>***********</p>
-        </div>
+  <div class="col s12 m12 l5 left-align">
+    <div class="row valign-wrapper">
+      <div class="col s2">
+        <img src="https://logo.clearbit.com/{{ account.website_url }}" alt="" class="responsive-img">
+      </div>
+      <div class="col s10">
+        <h5>
+          {{ account.website_name }}
+        </h5>
+      </div>
     </div>
+    <div class="section">
+      <h6>Website</h6>
+      <p>{{ account.website_url }}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h6>Username</h6>
+      <p>{{ account.account_username }}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h6>Password</h6>
+      <p>***********</p>
+    </div>
+  </div>
 
-    <div class="row">
-        <div class="col s12 m12 l12 left-align">
-        {% if shared_urls %}
-        <h5>Shared With</h5>
-        <table>
-            <thead>
-            <tr>
-                <th>Magic Link</th>
-                <th>Start Date</th>
-                <th>Duration</th>
-                <th>Expired?</th>
-            </tr>
-            </thead>
-            {% for shared_url in shared_urls %}
-            <tbody>
-            <tr>
-              <td><a href="{{ shared_url.magiclink }}">{{ shared_url.magiclink }}</a></td>
-              <td>{{ shared_url.start_date }}</td>
-              <td>{{ shared_url.duration }}</td>
-              <td>{{ shared_url.is_expired }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        {% endif %}
-        </div>
+  <div class="row">
+    <div class="col s12 m12 l12 left-align">
+      <h5>Shared With</h5>
+      <button class="btn waves-effect waves-light"
+        onclick="location.href='/share/{{ account.id }}/entry-account'">Generate a
+        magiclink to share</button>
+      {% if shared_urls %}
     </div>
+  </div>
+  <div class="row">
+    <div class="col s12 m12 l12 left-align">
+      <table>
+        <thead>
+          <tr>
+            <th>Magic Link</th>
+            <th>Start Date</th>
+            <th>Duration</th>
+            <th>Expired?</th>
+          </tr>
+        </thead>
+        {% for shared_url in shared_urls %}
+        <tbody>
+          <tr>
+            <td><a href="{{ shared_url.magiclink }}">{{ shared_url.magiclink }}</a></td>
+            <td>{{ shared_url.start_date }}</td>
+            <td>{{ shared_url.duration }}</td>
+            <td>{{ shared_url.is_expired }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}

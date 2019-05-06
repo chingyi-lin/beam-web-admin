@@ -3,21 +3,12 @@
 {% block content %}
 <div class="row">
   <div class="col s12 m12 l5 left-align">
-    <div class="row valign-wrapper">
-      <div class="col s2">
-        <img
-          src="https://cdn.vox-cdn.com/thumbor/AwKSiDyDnwy_qoVdLPyoRPUPo00=/39x0:3111x2048/1400x1400/filters:focal(39x0:3111x2048):format(png)/cdn.vox-cdn.com/uploads/chorus_image/image/49901753/netflixlogo.0.0.png"
-          alt="" class="responsive-img">
-      </div>
-      <div class="col s10">
-        <h5>
-          {{ note.title }}
-        </h5>
-      </div>
-    </div>
+    <h5>
+      {{ note.title }}
+    </h5>
     <div class="section">
       <h6>Content</h6>
-      <p>{{ note.content }}</p>
+      <pre>{{ note.content }}</pre>
     </div>
     <div class="divider"></div>
     <div class="section">

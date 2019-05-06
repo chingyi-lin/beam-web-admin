@@ -127,6 +127,8 @@ def share(entity_id, request_from):
 @app.route('/share-submit/<int:entity_id>/<string:request_from>', methods=['POST'])
 def shareSubmit(entity_id, request_from):
     duration = request.form['duration']
+    if duration == None:
+        return
     if (request_from == "add-note"):
         newObj = SharedNote(duration, entity_id)
     elif (request_from == "add-account"):
