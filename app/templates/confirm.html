@@ -3,9 +3,9 @@
 <h5>Sharing complete!</h5>
 <p>This is your magic link</p>
 <a href="{{ magiclink }}">{{ magiclink }}</p>
-{% if request_from == "add-note" %}
+{% if request_from == "add-note" or request_from ==  "entry-note" %}
 <a href="/note/{{ entity_id }}">Back to Note page</a>
-{% elif request_from == "add-account" %}
+{% elif request_from == "add-account" or request_from == "entry-account" %}
 <a href="/account/{{ entity_id }}">Back to Account page</a>
 {% else %}
 <a href="/">Back to home page</a>

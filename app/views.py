@@ -127,11 +127,13 @@ def share(entity_id, request_from):
 @app.route('/share-submit/<int:entity_id>/<string:request_from>', methods=['POST'])
 def shareSubmit(entity_id, request_from):
     duration = request.form['duration']
+    print(request_from)
     if duration == None:
         return
-    if (request_from == "add-note"):
+    if (request_from == "add-note" or request_from == "entry-note"):
         newObj = SharedNote(duration, entity_id)
-    elif (request_from == "add-account"):
+    elif (request_from == "add-account" or  request_from == "entry-account"):
+        print("new shared url")
         newObj = SharedURL(duration, entity_id)
     addToDatabase(newObj)
     newObj.set_magiclink()
